@@ -44,42 +44,6 @@ def main(moves):
         lcm = lcm*j//gcd(lcm, j)
     return(lcm)
 
-def rotate_r(perm):
-    faceplane_rot(perm,'r',1)
-    nonfaceplane_rot(perm,[['f','9','6','3'],['u','9','6','3'],['b','1','4','7'],['d','9','6','3']],-1)
-def rotate_rp(perm):
-    faceplane_rot(perm,'r',-1)
-    nonfaceplane_rot(perm,[['f','9','6','3'],['u','9','6','3'],['b','1','4','7'],['d','9','6','3']],1)
-def rotate_l(perm):
-    faceplane_rot(perm,'l',1)
-    nonfaceplane_rot(perm,[['f','7','4','1'],['u','7','4','1'],['b','3','6','9'],['d','7','4','1']],1)
-def rotate_lp(perm):
-    faceplane_rot(perm,'l',-1)
-    nonfaceplane_rot(perm,[['f','7','4','1'],['u','7','4','1'],['b','3','6','9'],['d','7','4','1']],-1)
-def rotate_u(perm):
-    faceplane_rot(perm,'u',1)
-    nonfaceplane_rot(perm,[['f','3','2','1'],['l','3','2','1'],['b','3','2','1'],['r','3','2','1']],-1)
-def rotate_up(perm):
-    faceplane_rot(perm,'u',-1)
-    nonfaceplane_rot(perm,[['f','3','2','1'],['l','3','2','1'],['b','3','2','1'],['r','3','2','1']],1)
-def rotate_d(perm):
-    faceplane_rot(perm,'d',1)
-    nonfaceplane_rot(perm,[['f','9','8','7'],['l','9','8','7'],['b','9','8','7'],['r','9','8','7']],1)
-def rotate_dp(perm):
-    faceplane_rot(perm,'d',-1)
-    nonfaceplane_rot(perm,[['f','9','8','7'],['l','9','8','7'],['b','9','8','7'],['r','9','8','7']],-1)
-def rotate_f(perm):
-    faceplane_rot(perm,'f',1)
-    nonfaceplane_rot(perm,[['u','7','8','9'],['r','1','4','7'],['d','3','2','1'],['l','9','6','3']],-1)
-def rotate_fp(perm):
-    faceplane_rot(perm,'f',-1)
-    nonfaceplane_rot(perm,[['u','7','8','9'],['r','1','4','7'],['d','3','2','1'],['l','9','6','3']],1)
-def rotate_b(perm):
-    faceplane_rot(perm,'b',1)
-    nonfaceplane_rot(perm,[['u','1','2','3'],['r','3','6','9'],['d','9','8','7'],['l','7','4','1']],1)
-def rotate_bp(perm):
-    faceplane_rot(perm,'b',-1)
-    nonfaceplane_rot(perm,[['u','1','2','3'],['r','3','6','9'],['d','9','8','7'],['l','7','4','1']],-1)
 #base functions to make things easier
 def faceplane_rot(perm,face,sign):
     if sign==1:
@@ -97,30 +61,21 @@ def nonfaceplane_rot(perm,facearray,sign):
 def shuffle(perm,arr):
     for i in reversed(arr): #function composition from right to left
         if i in ['r','rp','l','lp','u','up','d','dp','f','fp','b','bp']:
-            if i == 'r':
-                rotate_r(perm)
-            elif i == 'rp':
-                rotate_rp(perm)
-            elif i == 'l':
-                rotate_l(perm)
-            elif i == 'lp':
-                rotate_lp(perm)
-            elif i == 'u':
-                rotate_u(perm)
-            elif i == 'up':
-                rotate_up(perm)
-            elif i == 'd':
-                rotate_d(perm)
-            elif i == 'dp':
-                rotate_dp(perm)
-            elif i == 'f':
-                rotate_f(perm)
-            elif i == 'fp':
-                rotate_fp(perm)
-            elif i == 'b':
-                rotate_b(perm)
-            elif i == 'bp':
-                rotate_bp(perm)
+            parity=(-1 if 'p' in i else 1)
+            faceplane_rot(perm,i[0],parity)
+            if i[0] == 'r':
+                nonfaceplane_rot(perm,[['f','9','6','3'],['u','9','6','3'],['b','1','4','7'],['d','9','6','3']],-1*parity)
+            elif i[0] == 'l':
+                nonfaceplane_rot(perm,[['f','7','4','1'],['u','7','4','1'],['b','3','6','9'],['d','7','4','1']],parity)
+            elif i[0] == 'u':
+                nonfaceplane_rot(perm,[['f','3','2','1'],['l','3','2','1'],['b','3','2','1'],['r','3','2','1']],-1*parity)
+            elif i[0] == 'd':
+                nonfaceplane_rot(perm,[['f','9','8','7'],['l','9','8','7'],['b','9','8','7'],['r','9','8','7']],parity)
+            elif i[0] == 'f':
+                nonfaceplane_rot(perm,[['u','7','8','9'],['r','1','4','7'],['d','3','2','1'],['l','9','6','3']],-1*parity)
+            elif i[0] == 'b':
+                nonfaceplane_rot(perm,[['u','1','2','3'],['r','3','6','9'],['d','9','8','7'],['l','7','4','1']],parity)
+            
         
 
 if __name__ == '__main__':
